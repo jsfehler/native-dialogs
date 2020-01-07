@@ -16,6 +16,4 @@ else:
 
 __all__ = [
     "alert",
-    "choose_folder",
-    "get_username",
 ]
