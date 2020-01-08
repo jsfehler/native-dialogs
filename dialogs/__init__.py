@@ -2,13 +2,13 @@ import sys
 
 
 if sys.platform == "win32":
-    from .win import *
+    from .win import alert
 
 elif sys.platform == 'darwin':
-    from .osx import *
+    from .osx import alert
 
 elif sys.platform == 'linux':
-    from .linux import *
+    from .linux import alert
 
 else:
     raise ImportError('Current platform does not support NativeDialogs')
