@@ -133,18 +133,19 @@ bool button_event_buttonrelease(X11Button *btn, XEvent ev) {
             XFreeGC(btn->display, btn->gc);
             XDestroyWindow(btn->display, btn->window);
             XCloseDisplay(btn->display);
+            return(true);
         }
     }
     else {
         btn->clicked = 0;
     }
     
-    return(true);
+    return(false);
 }
 
 
 /* Create a small, non-resizeable box to display messages. */
-void MessageBox(const char* text, const char* title) {
+int MessageBox(const char* text, const char* title) {
     Display* display;
     int black_pixel;
     int white_pixel;
@@ -274,7 +275,9 @@ void MessageBox(const char* text, const char* title) {
 
     XFlush(display);
 
-    while (1) {
+    bool quit = false;
+
+    while (!quit) {
         XNextEvent(display, &event);
         
         x11_button.clicked = 0;
@@ -298,7 +301,8 @@ void MessageBox(const char* text, const char* title) {
         switch (event.type) {
             case ButtonPress:
             case ButtonRelease:
-                if (!button_event_buttonrelease(&x11_button, event)) {
+                if (button_event_buttonrelease(&x11_button, event)) {
+                    quit = true;
                     break;
                 }
                 
@@ -328,19 +332,21 @@ void MessageBox(const char* text, const char* title) {
                 XFlush(display);
 
                 break;
-
+    
+            /* Closing MessageBox from the window's cross button */
             case ClientMessage:
                 atom = XGetAtomName(display, event.xclient.message_type);
                 if (*atom == *"WM_DELETE_WINDOW") {
-                    XFree(atom);
-
                     XFreeGC(display, gc);
                     XDestroyWindow(display, window);
                     XCloseDisplay(display);
+                    quit = true;
                 }
 
                 XFree(atom);
                 break;
         }
     }
+    
+    return(0);
 }
