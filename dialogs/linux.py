@@ -1,4 +1,4 @@
-from ctypes import *
+from ctypes import CDLL, c_char_p
 import os.path
 
 

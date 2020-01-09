@@ -1,4 +1,4 @@
-from ctypes import *
+from ctypes import windll
 
 
 MessageBoxA = windll.user32.MessageBoxA
