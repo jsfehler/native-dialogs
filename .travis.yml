@@ -22,7 +22,7 @@ install:
 script:
 - if [ $TRAVIS_OS_NAME == "windows" ]; then tox -e $TOX_ENV -- -k win; fi
 - if [ $TRAVIS_OS_NAME == "linux" ]; then tox -e $TOX_ENV -- -k linux; fi
-- if [ $TOX_ENV == "flake8" ]; then tox -e $TOX_ENV; fi
+- if [ $TOX_ENV == "lint" ]; then tox -e $TOX_ENV; fi
 before_cache:
 - rm -rf $HOME/.cache/pip/log
 cache:
