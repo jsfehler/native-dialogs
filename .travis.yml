@@ -2,7 +2,7 @@ sudo: required
 dist: xenial
 matrix:
   include:
-
+  # Linux
   - language: python
     python: 2.7
     os: linux
@@ -19,7 +19,26 @@ matrix:
     python: 3.8
     os: linux
     env: TOX_ENV=linux
+  # OSX
+  - language: python
+    python: 2.7
+    os: osx
+    env: TOX_ENV=osx
+  - language: python
+    python: 3.6
+    os: osx
+    env: TOX_ENV=osx
+  - language: python
+    python: 3.7
+    os: osx
+    env: TOX_ENV=osx
+  - language: python
+    python: 3.8
+    os: osx
+    env: TOX_ENV=osx
 
+  # Windows
+  # No python support by default, so install it separately
   - language: shell
     os: windows
     env:
@@ -49,6 +68,8 @@ matrix:
       - PY_SUBVERSION=3.8
       - PATH=/c/Python38:/c/Python38/Scripts:$PATH
 
+  # Lint
+  # Only run linting on the latest python version
   - language: python
     python: 3.8
     env: TOX_ENV=lint

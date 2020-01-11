@@ -8,7 +8,7 @@ def _run_applescript(script):
         tuple
     """
     p = Popen(['osascript', '-'], stdin=PIPE, stdout=PIPE, stderr=PIPE)
-    stdout, stderr = p.communicate(bytes(script, encoding='utf8'))
+    stdout, stderr = p.communicate(bytes(str(script).encode("utf-8")))
     return (p.returncode, stdout, stderr)
 
 
