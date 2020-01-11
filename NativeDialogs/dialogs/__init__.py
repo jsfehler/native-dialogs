@@ -7,7 +7,7 @@ if sys.platform == "win32":
 elif sys.platform == 'darwin':
     from .osx import alert
 
-elif sys.platform == 'linux':
+elif sys.platform.startswith('linux'):
     from .linux import alert
 
 else:
