@@ -1,28 +1,64 @@
-os:
-  - linux
-  - windows
-
-language: python
 sudo: required
 dist: xenial
 matrix:
   include:
-  - python: 2.7
-    env: TOX_ENV=test
-  - python: 3.6
-    env: TOX_ENV=test
-  - python: 3.7
-    env: TOX_ENV=test
-  - python: 3.8
-    env: TOX_ENV=test
-  - python: 3.8
-    env: TOX_ENV=flake8
+
+  - language: python
+    python: 2.7
+    os: linux
+    env: TOX_ENV=linux
+  - language: python
+    python: 3.6
+    os: linux
+    env: TOX_ENV=linux
+  - language: python
+    python: 3.7
+    os: linux
+    env: TOX_ENV=linux
+  - language: python
+    python: 3.8
+    os: linux
+    env: TOX_ENV=linux
+
+  - language: shell
+    os: windows
+    env:
+      - TOX_ENV=windows
+      - PY_VERSION=2
+      - PY_SUBVERSION=2.7.15
+      - PATH=/c/Python27:/c/Python27/Scripts:$PATH
+  - language: shell
+    os: windows
+    env:
+      - TOX_ENV=windows
+      - PY_VERSION=3
+      - PY_SUBVERSION=3.6
+      - PATH=/c/Python36:/c/Python36/Scripts:$PATH
+  - language: shell
+    os: windows
+    env:
+      - TOX_ENV=windows
+      - PY_VERSION=3
+      - PY_SUBVERSION=3.7
+      - PATH=/c/Python37:/c/Python37/Scripts:$PATH
+  - language: shell
+    os: windows
+    env:
+      - TOX_ENV=windows
+      - PY_VERSION=3
+      - PY_SUBVERSION=3.8
+      - PATH=/c/Python38:/c/Python38/Scripts:$PATH
+
+  - language: python
+    python: 3.8
+    env: TOX_ENV=lint
 install:
+- if [ $TRAVIS_OS_NAME == "windows" ]; then choco install python$PY_VERSION --version=$PY_SUBVERSION; fi
+- python --version
+- python -m pip install --upgrade pip
 - pip install tox coveralls
 script:
-- if [ $TRAVIS_OS_NAME == "windows" ]; then tox -e $TOX_ENV -- -k win; fi
-- if [ $TRAVIS_OS_NAME == "linux" ]; then tox -e $TOX_ENV -- -k linux; fi
-- if [ $TOX_ENV == "lint" ]; then tox -e $TOX_ENV; fi
+- tox -e $TOX_ENV
 before_cache:
 - rm -rf $HOME/.cache/pip/log
 cache:
