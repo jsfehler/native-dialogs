@@ -15,10 +15,10 @@ Usage
 
 .. code-block:: python
 
-   from NativeDialogs import dialog
+    from NativeDialogs import dialog
 
 
-   dialog.alert('Dialog text', 'Dialog title')
+    dialog.alert('Dialog text', 'Dialog title')
 
 How does it work?
 -----------------
@@ -26,6 +26,17 @@ How does it work?
 - Windows: ctypes + Windows API to open a MessageBoxA
 - OSX: Applescript to open an Alert
 - Linux: ctypes + Xlib to open a window styled to look like a MessageBox
+
+Running the tests
+-----------------
+
+Due to the nature of this package, you can't run all the tests on one operating system.
+Use -k win/osx/linux to filter the tests
+
+
+.. code-block:: python
+
+    tox -e test -- -k win
 
 FAQ
 ---
@@ -52,4 +63,3 @@ Why not use pywin32, PyObjC, or python-xlib?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 It wouldn't be zero-dependency then, would it? Silly billy. Sufficiently complex use cases will have to roll their own tools..
-
