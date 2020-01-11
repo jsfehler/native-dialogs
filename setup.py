@@ -19,6 +19,7 @@ setup(
     license="MIT",
     url="https://github.com/jsfehler/native-dialogs",
     packages=find_packages(),
+    include_package_data=True,
     classifiers=(
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3.6",
