@@ -2,12 +2,12 @@ from ctypes import CDLL, c_char_p
 import os.path
 
 
-def _get_file_path():
+def _get_file_path(filename):
     cwd = os.path.abspath(os.path.dirname(__file__))
-    return os.path.join(cwd, 'x11_dialog.so')
+    return os.path.join(cwd, filename)
 
 
-x11_dialog = CDLL(_get_file_path())
+x11_dialog = CDLL(_get_file_path('x11_dialog.so'))
 
 
 def alert(text, title='', buttons=('OK',)):
