@@ -14,7 +14,7 @@ def mock_run_applescript(script):
 
 
 # Monkey patch
-dialogs._run_applescript = mock_run_applescript
+dialogs.osx._run_applescript = mock_run_applescript
 
 
 def test_alert_return_value():

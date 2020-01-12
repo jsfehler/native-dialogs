@@ -6,64 +6,61 @@ matrix:
   - language: python
     python: 2.7
     os: linux
-    env: TOX_ENV=linux
   - language: python
     python: 3.6
     os: linux
-    env: TOX_ENV=linux
   - language: python
     python: 3.7
     os: linux
-    env: TOX_ENV=linux
   - language: python
     python: 3.8
     os: linux
-    env: TOX_ENV=linux
+
   # OSX
-  - language: python
-    python: 2.7
+  - language: shell
     os: osx
-    env: TOX_ENV=osx
-  - language: python
-    python: 3.6
+    osx_image: xcode9.3
+    env:
+      - PY_VERSION=2
+  - language: shell
     os: osx
-    env: TOX_ENV=osx
-  - language: python
-    python: 3.7
+    osx_image: xcode9.4
+    env:
+      - PY_VERSION=3
+  - language: shell
     os: osx
-    env: TOX_ENV=osx
-  - language: python
-    python: 3.8
+    osx_image: xcode10.2
+    env:
+      - PY_VERSION=3
+  - language: shell
     os: osx
-    env: TOX_ENV=osx
+    osx_image: xcode11.3
+    env:
+      - PY_VERSION=3
 
   # Windows
   # No python support by default, so install it separately
   - language: shell
     os: windows
     env:
-      - TOX_ENV=windows
       - PY_VERSION=2
       - PY_SUBVERSION=2.7.15
       - PATH=/c/Python27:/c/Python27/Scripts:$PATH
   - language: shell
     os: windows
     env:
-      - TOX_ENV=windows
       - PY_VERSION=3
       - PY_SUBVERSION=3.6
       - PATH=/c/Python36:/c/Python36/Scripts:$PATH
   - language: shell
     os: windows
     env:
-      - TOX_ENV=windows
       - PY_VERSION=3
       - PY_SUBVERSION=3.7
       - PATH=/c/Python37:/c/Python37/Scripts:$PATH
   - language: shell
     os: windows
     env:
-      - TOX_ENV=windows
       - PY_VERSION=3
       - PY_SUBVERSION=3.8
       - PATH=/c/Python38:/c/Python38/Scripts:$PATH
@@ -73,13 +70,27 @@ matrix:
   - language: python
     python: 3.8
     env: TOX_ENV=lint
+
 install:
+# Windows
 - if [ $TRAVIS_OS_NAME == "windows" ]; then choco install python$PY_VERSION --version=$PY_SUBVERSION; fi
-- python --version
-- python -m pip install --upgrade pip
-- pip install tox coveralls
+- if [ $TRAVIS_OS_NAME == "windows" ]; then python --version; fi
+- if [ $TRAVIS_OS_NAME == "windows" ]; then python -m pip install --upgrade pip; fi
+- if [ $TRAVIS_OS_NAME == "windows" ]; then pip install tox coveralls; fi
+
+# OSX
+- if [[ $TRAVIS_OS_NAME == "osx" && $PY_VERSION == 2 ]]; then python --version; fi
+- if [[ $TRAVIS_OS_NAME == "osx" && $PY_VERSION == 2 ]]; then sudo pip install tox coveralls; fi
+
+- if [[ $TRAVIS_OS_NAME == "osx" && $PY_VERSION == 3 ]]; then python3 --version; fi
+- if [[ $TRAVIS_OS_NAME == "osx" && $PY_VERSION == 3 ]]; then pip3 install -U pip; fi
+- if [[ $TRAVIS_OS_NAME == "osx" && $PY_VERSION == 3 ]]; then pip3 install tox coveralls; fi
+
+# Linux
+- if [ $TRAVIS_OS_NAME == "linux" ]; then pip install tox coveralls; fi
+
 script:
-- tox -e $TOX_ENV
+- tox -e $TRAVIS_OS_NAME
 before_cache:
 - rm -rf $HOME/.cache/pip/log
 cache:
