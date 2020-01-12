@@ -80,7 +80,7 @@ install:
 
 # OSX
 - if [[ $TRAVIS_OS_NAME == "osx" && $PY_VERSION == 2 ]]; then python --version; fi
-- if [[ $TRAVIS_OS_NAME == "osx" && $PY_VERSION == 2 ]]; then sudo pip install tox coveralls; fi
+- if [[ $TRAVIS_OS_NAME == "osx" && $PY_VERSION == 2 ]]; then sudo pip install --ignore-installed tox coveralls; fi
 
 - if [[ $TRAVIS_OS_NAME == "osx" && $PY_VERSION == 3 ]]; then python3 --version; fi
 - if [[ $TRAVIS_OS_NAME == "osx" && $PY_VERSION == 3 ]]; then pip3 install -U pip; fi
