@@ -2,7 +2,11 @@ import sys
 
 
 if sys.platform == "win32":
-    from .win import alert
+    # If older than Windows Vista, use a MessageBox instead
+    try:
+        from .win.taskdialog.taskdialog import alert
+    except:
+        from .win.messagebox import alert
 
 elif sys.platform == 'darwin':
     from .osx import alert
