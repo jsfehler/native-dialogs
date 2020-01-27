@@ -50,7 +50,7 @@ matrix:
     os: windows
     env:
       - PY_VERSION=3
-      - PY_SUBVERSION=3.6
+      - PY_SUBVERSION=3.6.5
       - PATH=/c/Python36:/c/Python36/Scripts:$PATH
   - language: shell
     os: windows
